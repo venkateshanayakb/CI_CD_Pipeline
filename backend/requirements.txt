@@ -4,4 +4,4 @@ scikit-learn
 pandas
 numpy
 pytest
-https
+httpx

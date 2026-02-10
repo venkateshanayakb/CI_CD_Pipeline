@@ -10,7 +10,7 @@ app = FastAPI (title="Linear Regression API")
 #import os
 #Model_path = Path(os...)
 #model_path = r"G:\IIHMR\Notes\Vinay Sir\MLOps_Pipeline\backend\models\model.pkl"
-model_path = Path(os.getenv("model_path", r"G:\IIHMR\Notes\Vinay Sir\MLOps_Pipeline\backend\models\model.pkl"))
+model_path = Path(os.getenv("model_path", "models\model.pkl"))
 
 try:
     with open(model_path, "rb") as f:

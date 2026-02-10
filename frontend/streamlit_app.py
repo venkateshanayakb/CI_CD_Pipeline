@@ -1,8 +1,12 @@
 import streamlit as st
 import requests
+import os
 
 # FastAPI endpoint
-API_URL = "https://ci-cd-pipeline-kp92.onrender.com"
+API_URL = os.getenv(
+    "BACKEND_URL",
+    "https://ci-cd-pipeline-kp92.onrender.com/predict"
+)
 
 st.set_page_config(page_title="House Price Predictor", layout="centered")
 
@@ -26,9 +30,9 @@ if st.button("Predict Price"):
 
         if response.status_code == 200:
             result = response.json()
-            price = result["Predicted_price"]
+            price = result["predicted_price"]
 
-            st.success(f"Predicted Price: ₹ {price:,.2f}")
+            st.success(f"predicted Price: ₹ {price:,.2f}")
 
         else:
             st.error(f"API Error: {response.status_code}")

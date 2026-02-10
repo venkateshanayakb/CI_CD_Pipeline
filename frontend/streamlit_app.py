@@ -14,7 +14,7 @@ st.title("🏠 House Price Prediction")
 st.write("Enter property details to get predicted price")
 
 # Inputs
-area = st.number_input("Area (sq ft)", min_value=300.0, max_value=5000, value=1200, step=50.0)
+area = st.number_input("Area (sq ft)", min_value=300.0, max_value=5000.0, value=1200.0, step=50.0)
 bedrooms = st.number_input("Bedrooms", min_value=1, max_value=10, value=2, step=1)
 
 # Predict button

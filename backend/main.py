@@ -30,5 +30,5 @@ def healt_check():
 def predict(data: InputData):
     X = np.array([[data.area, data.bedrooms]])
     prediction = model.predict(X)[0]
-    return {"Predicted_price": float(prediction)}
+    return {"predicted_price": float(prediction)}
 

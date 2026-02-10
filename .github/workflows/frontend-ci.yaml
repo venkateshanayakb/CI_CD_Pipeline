@@ -23,4 +23,5 @@ jobs:
         run: |
           cd frontend
           pip install --upgrade pip
-          pip install -r requ
+          pip install -r requirements.txt
+          python -c "import streamlit"

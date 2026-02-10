@@ -32,3 +32,4 @@ def predict(data: InputData):
     prediction = model.predict(X)[0]
     return {"predicted_price": float(prediction)}
 
+#TRIGGER

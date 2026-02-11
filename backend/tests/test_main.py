@@ -13,7 +13,7 @@ Client = TestClient(app)
 def test_health_check():
     response = Client.get("/")
     assert response.status_code == 200
-    assert response.json() == {"status": "API running"}
+    assert response.json() == {"message": "Linear Regression API is running"}
 
 def test_predict_valid_input():
     payload = {

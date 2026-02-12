@@ -131,6 +131,7 @@ Returns predicted Medicare reimbursement:
 }
 
 ```
+---
 
 ## ⚙️ MLOps Practices Implemented
 

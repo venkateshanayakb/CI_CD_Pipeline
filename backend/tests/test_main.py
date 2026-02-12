@@ -1,4 +1,3 @@
-import pytest
 from fastapi.testclient import TestClient
 from backend.main import app
 
@@ -39,3 +38,11 @@ def test_predict_valid_input():
     assert isinstance(data["predicted_medicare_payment"], (int, float))
     assert data["predicted_medicare_payment"] > 0
     assert data["currency"] == "USD"
+
+def test_metrics_endpoint():
+    response = client.get("/metrics")
+    assert response.status_code == 200
+
+    data = response.json()
+    assert "model_name" in data
+    assert "performance" in data

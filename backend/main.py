@@ -13,11 +13,11 @@ import logging
 
 APP_NAME = "Medicare Reimbursement Prediction API"
 APP_VERSION = "2.0.0"
-MODEL_PATH = Path(os.getenv("MODEL_PATH", "backend/models/model.pkl"))
+MODEL_PATH = Path(os.getenv("MODEL_PATH", "models/model.pkl"))
 if not MODEL_PATH.exists():
     raise RuntimeError("Model file not found. Train the model before starting API.")
 
-METRICS_PATH = Path(os.getenv("METRICS_PATH", "backend/models/metrics.json"))
+METRICS_PATH = Path(os.getenv("METRICS_PATH", "models/metrics.json"))
 
 
 # --------------------------------------------------

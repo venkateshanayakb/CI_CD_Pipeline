@@ -1,80 +1,157 @@
-# MLOps CI/CD Pipeline Project
+# 🏥 Medicare Hospital Charges Prediction System
 
-## What is this project?
+Production-ready Machine Learning system that predicts **Average Medicare Reimbursement Payments** using real CMS inpatient hospital data.
 
-This project demonstrates an **end-to-end CI/CD pipeline for a Machine Learning application**.
-
-It shows how a trained ML model can be:
-- Exposed as an API
-- Connected to a user-facing frontend
-- Automatically tested and deployed to the cloud
-
-The project follows **real-world MLOps practices**, not just local experimentation.
+This project combines healthcare analytics, statistical modeling, API development, CI/CD automation, and cloud deployment.
 
 ---
 
-## What does it contain?
+## 🎯 Problem Statement
 
-- **FastAPI Backend**
-  - Serves a trained ML model for prediction
-  - Exposes a `/predict` API endpoint
-  - Deployed as a cloud service on Render
+Medicare reimbursement is policy-driven and economically significant.  
+Hospitals and analysts need structured insight into:
 
-- **Streamlit Frontend**
-  - Provides a simple UI for users
-  - Sends input data to the backend API
-  - Displays predicted results
+- Payment patterns across DRGs  
+- Geographic reimbursement differences  
+- High-cost case variability  
 
-- **CI/CD with GitHub Actions**
-  - Runs automated tests on every push
-  - Deploys backend only if tests pass
-  - Ensures reliable and repeatable deployments
-
-- **Cloud Deployment (Render)**
-  - Backend and frontend deployed as separate services
-  - Environment variables used for configuration
-  - No hardcoded secrets or URLs
+This project builds a predictive and observable ML system for that purpose.
 
 ---
 
-## Why is this needed?
+## 📊 Dataset
 
-In real-world ML systems:
-- Models are not run manually
-- Code changes should not break production
-- Deployments must be automated and reproducible
-- Frontend and backend must be independently scalable
+**CMS Inpatient Charges Dataset**
 
-This project solves those problems by:
-- Turning an ML model into a production-ready service
-- Preventing faulty code from being deployed
-- Separating concerns between UI, API, and model
-- Demonstrating how MLOps works beyond notebooks
+Features:
+- Total Discharges  
+- Provider State  
+- DRG Definition  
 
----
+Target:
+- Average Medicare Payments  
 
-## What this project demonstrates
-
-- End-to-end ML deployment
-- CI/CD pipelines for ML applications
-- Monorepo project structure
-- Cloud-native configuration using environment variables
-- Practical debugging of deployment issues
+Real-world healthcare economic data. No synthetic dataset.
 
 ---
 
-## Who is this useful for?
+## 🧠 Modeling Approach
 
-- ML and Data Science students learning MLOps
-- Engineers transitioning from notebooks to production
-- Anyone who wants a **realistic ML deployment example**
-- Portfolio demonstration for interviews
+### Data Processing
+- Cleaned currency fields
+- OneHotEncoding for categorical variables
+- Standard scaling for numeric features
+- Reusable scikit-learn pipeline
+
+### Model Comparison
+Compared:
+- Linear Regression
+- Random Forest Regressor
+
+### Statistical Improvement
+- Identified heteroscedasticity
+- Applied log transformation
+- Stabilized variance across payment strata
 
 ---
 
-## Summary
+## 📈 Final Model Performance
 
-This project shows how a Machine Learning model moves from:
-**local code → tested service → automated cloud deployment**
+Log-Transformed Linear Regression:
 
-It focuses on **reliability, automation, and real-world readiness**, not just model accuracy.
+- R² ≈ 0.88  
+- MAE ≈ 1275  
+- MAPE ≈ 14%
+
+Linear model outperformed Random Forest, indicating structured reimbursement behavior.
+
+---
+
+## 🏗️ System Architecture
+
+```
+Training Pipeline
+↓
+Model Artifact Generation
+↓
+FastAPI Backend
+↓
+/predict | /health | /metrics
+↓
+Streamlit Frontend
+↓
+Render Cloud Deployment
+
+```
+
+
+---
+
+## 🔧 Tech Stack
+
+Backend:
+- FastAPI
+- Scikit-learn
+- Pandas
+- NumPy
+
+Frontend:
+- Streamlit
+
+Infrastructure:
+- GitHub Actions (CI/CD)
+- Render (Cloud Deployment)
+- Pytest (API Testing)
+- Flake8 (Linting)
+
+---
+
+## 📡 API Endpoints
+
+### GET `/`
+Service status
+
+### GET `/health`
+System health check
+
+### GET `/metrics`
+Returns:
+- Selected model
+- MAE, RMSE, R², MAPE
+- API version
+
+### POST `/predict`
+Returns predicted Medicare reimbursement:
+
+```json
+{
+  "predicted_medicare_payment": 7421.34,
+  "currency": "USD",
+  "model_version": "2.0.0"
+}
+
+## ⚙️ MLOps Practices Implemented
+
+- Model artifacts not stored in Git  
+- Model retrained automatically in CI  
+- Backend tests run before deployment  
+- Linting enforced in CI  
+- Metrics exposed via API  
+- Cross-platform path handling  
+- Environment variable configuration  
+
+---
+
+## 🚀 Outcome
+
+This project demonstrates:
+
+- Healthcare data preprocessing  
+- Model comparison and statistical reasoning  
+- Variance stabilization using log transformation  
+- Structured error analysis  
+- Production-grade API development  
+- CI/CD integration for ML systems  
+- Cloud deployment with observability  
+
+It is a complete, reproducible, deployable healthcare ML system — not just a notebook model.

@@ -9,3 +9,5 @@ env/
 .vscode/
 .env
 .env.*
+backend/models/*.pkl
+backend/models/*.json

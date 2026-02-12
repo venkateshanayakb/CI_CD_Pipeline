@@ -2,27 +2,49 @@ import streamlit as st
 import requests
 import os
 
-# FastAPI endpoint
+# Backend endpoint
 API_URL = os.getenv(
     "BACKEND_URL",
     "https://ci-cd-pipeline-kp92.onrender.com/predict"
 )
 
-st.set_page_config(page_title="House Price Predictor", layout="centered")
+st.set_page_config(page_title="Medicare Payment Predictor", layout="centered")
 
-st.title("🏠 House Price Prediction")
-st.write("Enter property details to get predicted price")
+st.title("🏥 Medicare Reimbursement Prediction")
+st.write("Predict average Medicare payment based on DRG, state, and discharge volume.")
 
+# -------------------------------
 # Inputs
-area = st.number_input("Area (sq ft)", min_value=300.0, max_value=5000.0, value=1200.0, step=50.0)
-bedrooms = st.number_input("Bedrooms", min_value=1, max_value=10, value=2, step=1)
+# -------------------------------
 
-# Predict button
-if st.button("Predict Price"):
+total_discharges = st.number_input(
+    "Total Discharges",
+    min_value=1,
+    max_value=5000,
+    value=50,
+    step=1
+)
+
+provider_state = st.text_input(
+    "Provider State (e.g., NY, CA, TX)",
+    value="NY"
+)
+
+drg_definition = st.text_input(
+    "DRG Definition",
+    value="194 - SIMPLE PNEUMONIA & PLEURISY W CC"
+)
+
+# -------------------------------
+# Predict Button
+# -------------------------------
+
+if st.button("Predict Medicare Payment"):
 
     payload = {
-        "area": area,
-        "bedrooms": int(bedrooms)
+        "total_discharges": int(total_discharges),
+        "provider_state": provider_state.strip().upper(),
+        "drg_definition": drg_definition.strip()
     }
 
     try:
@@ -30,12 +52,13 @@ if st.button("Predict Price"):
 
         if response.status_code == 200:
             result = response.json()
-            price = result["predicted_price"]
+            payment = result["predicted_medicare_payment"]
 
-            st.success(f"predicted Price: ₹ {price:,.2f}")
+            st.success(f"Predicted Medicare Payment: $ {payment:,.2f}")
 
         else:
             st.error(f"API Error: {response.status_code}")
+            st.write(response.text)
 
     except Exception as e:
-        st.error(f"Could not connect to API: {e}")
+        st.error(f"Could not connect to backend: {e}")

@@ -1,0 +1,220 @@
+1) Built a healthcare reimbursement prediction system using CMS inpatient data.
+Reduced prediction error from 54 percent to 17 percent through feature engineering and structured preprocessing pipeline. Deployed via CI CD on cloud.
+
+2) Linear Regression Performance:
+MAE  : 1416.90
+RMSE : 2658.69
+R2   : 0.8663
+MAPE : 16.47%
+
+Random Forest Performance:
+MAE  : 1504.17
+RMSE : 2866.27
+R2   : 0.8446
+MAPE : 16.99%
+
+Model Comparison (Lower MAE is better):
+Linear Regression performs better based on MAE.
+
+Best model selected: LinearRegression
+Model and metrics saved successfully.
+
+Medicare reimbursement in this dataset is:
+
+• Largely linear in encoded feature space
+• Strongly structured
+• Not driven by chaotic nonlinear interactions
+
+Which makes sense.
+
+Medicare payment rules are formula-based, DRG-weighted, policy-defined. They are not like stock markets.
+
+A linear model fits policy systems beautifully.
+
+You just empirically confirmed that.
+
+That’s far more impressive than squeezing 0.01 improvement from Random Forest.
+
+Why Random Forest Lost
+
+Tree ensembles shine when:
+
+• Complex nonlinear interactions exist
+• Feature relationships are highly irregular
+• Decision boundaries are messy
+
+But here:
+
+• DRG one-hot encoding already separates procedure types cleanly
+• State encoding captures geographic adjustment
+• Discharges scale nearly proportionally
+
+The system behaves almost piecewise linear.
+
+Linear regression wins because the world here is rule-based.
+
+Compared linear and ensemble models on CMS inpatient reimbursement data. 
+Found that linear regression outperformed Random Forest, indicating structured reimbursement patterns consistent with policy-driven pricing.”
+
+3) Here is a clear, structured summary of everything you have done so far. This reads like a project report, not a casual recap.
+
+Project Summary: Healthcare Reimbursement Prediction System with CI/CD
+1. Infrastructure and Deployment
+
+• Designed a backend API using FastAPI to serve machine learning predictions
+• Built a frontend interface using Streamlit for user interaction
+• Implemented CI/CD pipelines using GitHub Actions
+• Configured automated deployment to Render cloud
+• Added health check endpoints for service monitoring
+• Structured project as a production-style monorepo
+• Managed environment variables securely for deployment
+
+This established full-stack ML system deployment capability.
+
+2. Dataset Upgrade
+
+• Replaced toy house price dataset with real CMS inpatient hospital charges dataset
+• Cleaned monetary columns by removing dollar signs and commas
+• Standardized column names
+• Selected relevant healthcare features:
+
+Total Discharges
+
+Provider State
+
+DRG Definition
+• Defined target variable:
+
+Average Medicare Payments
+
+This transformed the project into a real healthcare economics modeling task.
+
+3. Feature Engineering and Pipeline Design
+
+• Implemented a ColumnTransformer for structured preprocessing
+• Applied:
+
+StandardScaler for numeric features
+
+OneHotEncoder for categorical features
+• Encapsulated preprocessing and model into a single scikit-learn Pipeline
+• Ensured preprocessing consistency between training and inference
+
+This made the system production-ready and reproducible.
+
+4. Model Comparison
+
+Trained and evaluated:
+
+• Linear Regression
+• Random Forest Regressor
+
+Evaluated using:
+
+• MAE
+• RMSE
+• R²
+• MAPE
+
+Findings:
+
+• Linear Regression outperformed Random Forest
+• R² ≈ 0.87 on raw scale
+• Demonstrated that Medicare reimbursement structure is largely linear in encoded feature space
+
+This provided structural insight into policy-driven pricing systems.
+
+5. Error Analysis
+
+Conducted detailed residual analysis:
+
+• Computed residuals and absolute errors
+• Identified heteroscedasticity (error increases with payment size)
+• Analyzed worst prediction cases
+• Found largest errors in high-severity DRGs (e.g., sepsis, ventilator cases)
+• Identified state-level variation in prediction error
+• Quantified error by payment buckets
+
+Conclusion:
+
+• Model performs well for routine procedures
+• High-cost DRGs show larger variance
+• Variance scales with payment magnitude
+
+This elevated the project into analytical investigation.
+
+6. Statistical Improvement via Log Transformation
+
+Identified multiplicative error structure.
+
+Applied:
+
+• Log transformation to target variable
+• Re-trained models on log scale
+• Exponentiated predictions before metric calculation
+
+Results:
+
+• R² improved from 0.866 → 0.8807
+• MAPE reduced from ~16.5% → ~14.0%
+• Funnel-shaped heteroscedasticity significantly reduced
+• Error became more stable across payment strata
+
+This demonstrated econometric reasoning and model calibration improvement.
+
+7. Model Selection Discipline
+
+• Objectively compared models based on MAE
+• Selected Linear Regression due to better performance and simplicity
+• Saved best-performing model automatically
+• Saved evaluation metrics in JSON for traceability
+
+This showed engineering maturity and model governance thinking.
+
+Technical Skills Demonstrated
+
+• End-to-end ML system deployment
+• Healthcare data preprocessing
+• Feature encoding for high-cardinality categorical variables
+• Model comparison methodology
+• Residual and heteroscedasticity analysis
+• Log-transformation for variance stabilization
+• CI/CD automation
+• Cloud deployment architecture
+• API design and monitoring
+
+Conceptual Insights Gained
+
+• Medicare reimbursement follows structured, policy-driven patterns
+• Reimbursement variability is multiplicative, not additive
+• High-cost DRGs introduce variance scaling
+• Simpler models can outperform complex ensembles when structure is linear
+
+Current Model Performance (Log-Transformed)
+
+Linear Regression:
+
+• R² ≈ 0.881
+• MAE ≈ 1275
+• MAPE ≈ 14%
+
+This is strong performance for real-world healthcare cost data.
+
+Current System Capabilities
+
+Your system now:
+
+• Predicts Medicare reimbursement based on DRG, state, and discharge volume
+• Exposes prediction via cloud API
+• Includes health and metrics endpoints
+• Performs reproducible preprocessing
+• Selects best model automatically
+• Has undergone structured statistical validation
+
+You have moved from:
+
+“Deploying a toy regression model”
+
+to:
+
+“Designing, validating, and deploying a healthcare reimbursement prediction system with structured statistical reasoning.”

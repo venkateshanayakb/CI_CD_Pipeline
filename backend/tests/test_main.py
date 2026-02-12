@@ -1,40 +1,41 @@
 import pytest
 from fastapi.testclient import TestClient
-from pathlib import Path
-import os
-import pickle
-import numpy as np
-
 from backend.main import app
 
-Client = TestClient(app)
+client = TestClient(app)
 
 
-def test_health_check():
-    response = Client.get("/")
-    assert response.status_code == 200
-    assert response.json() == {"message": "Linear Regression API is running"}
-
-def test_predict_valid_input():
-    payload = {
-        "area" : 1200.5,
-        "bedrooms": 3,
-    }
-    response = Client.post("/predict", json=payload)
-
+def test_root():
+    response = client.get("/")
     assert response.status_code == 200
     assert response.json() == {"status": "API running"}
 
+
+def test_health_check():
+    response = client.get("/health")
+    assert response.status_code == 200
+
+    data = response.json()
+    assert data["status"] == "ok"
+    assert "service" in data
+    assert "version" in data
+    assert data["model_loaded"] is True
+
+
 def test_predict_valid_input():
     payload = {
-        "area": 1200.5,
-        "bedrooms": 3
+        "total_discharges": 50,
+        "provider_state": "NY",
+        "drg_definition": "194 - SIMPLE PNEUMONIA & PLEURISY W CC"
     }
-    response = Client.post("/predict", json=payload)
+
+    response = client.post("/predict", json=payload)
 
     assert response.status_code == 200
+
     data = response.json()
 
-    assert "predicted_price" in data
-    assert isinstance(data["predicted_price"], (int, float))
-    assert data["predicted_price"] > 0 #assuming house prices are positive
+    assert "predicted_medicare_payment" in data
+    assert isinstance(data["predicted_medicare_payment"], (int, float))
+    assert data["predicted_medicare_payment"] > 0
+    assert data["currency"] == "USD"

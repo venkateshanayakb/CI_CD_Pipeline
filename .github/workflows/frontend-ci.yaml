@@ -5,23 +5,36 @@ on:
     branches: ["main"]
     paths:
       - "frontend/**"
+      - ".github/workflows/frontend-ci.yaml"
 
 jobs:
   frontend-test:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: frontend
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
+          cache: "pip"
 
-      - name: Install frontend dependencies and smoke test
+      - name: Install dependencies
         run: |
-          cd frontend
           pip install --upgrade pip
           pip install -r requirements.txt
-          python -c "import streamlit"
+
+      - name: Validate Streamlit import
+        run: python -c "import streamlit"
+
+      - name: Validate app import
+        run: python -c "import streamlit_app"
+
+      - name: Syntax check
+        run: python -m py_compile streamlit_app.py

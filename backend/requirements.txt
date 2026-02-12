@@ -5,3 +5,7 @@ pandas
 numpy
 pytest
 httpx
+scikit-learn
+pandas
+numpy
+matplotlib

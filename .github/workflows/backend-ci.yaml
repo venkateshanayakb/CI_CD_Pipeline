@@ -3,37 +3,51 @@ name: Backend CI + Deploy to Render
 on:
   push:
     branches: [main]
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-ci.yaml"
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.10"
+          cache: "pip"
 
       - name: Install dependencies
-        working-directory: backend
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
+          pip install pytest httpx
 
-      - name: Run Checks
-        working-directory: backend
+      - name: Validate app import
         run: python -c "import main"
 
       - name: Run backend tests
-        working-directory: backend
+        run: pytest tests/ -v
+
+      - name: Lint code
         run: |
-          python -m pip install pytest httpx
-          python -m pytest tests/
+          pip install flake8
+          flake8 .
+
 
   deploy:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
+
     steps:
       - name: Trigger Render Deploy
-        run:
-          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
+        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"

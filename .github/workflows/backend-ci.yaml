@@ -31,6 +31,9 @@ jobs:
           pip install -r requirements.txt
           pip install pytest httpx
 
+      - name: Train model
+        run: python training.py
+
       - name: Validate app import
         run: python -c "import main"
 
@@ -41,7 +44,6 @@ jobs:
         run: |
           pip install flake8
           flake8 .
-
 
   deploy:
     needs: test

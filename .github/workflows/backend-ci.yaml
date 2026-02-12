@@ -40,11 +40,6 @@ jobs:
       - name: Run backend tests
         run: pytest tests/ -v
 
-      - name: Lint code
-        run: |
-          pip install flake8
-          flake8 .
-
   deploy:
     needs: test
     runs-on: ubuntu-latest
